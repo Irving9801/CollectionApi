@@ -1,22 +1,15 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a simple example NodeJS API project to demonstrate Swagger Documentation",
+        "description": "Atlantixz Collection API",
         "version": "1.0.0",
-        "title": "Tasks API",
-        "contact": {
-            "email": "abc@gmail.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        }
+        "title": "Tasks API"
     },
-    "schemes": ["http"],
-    "host": "localhost:3080",
+    "schemes": ["http","https"],
+    "host": "localhost:5000",
     "basePath": "/api",
     "paths" : {
-        "/todos" : {
+        "/products" : {
             "get" : {
                 "summary" : "Get all the tasks",
                 "description": "Get all the tasks",

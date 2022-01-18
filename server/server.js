@@ -13,8 +13,12 @@ import fs1 from "fs";
 import bodyParser1 from "body-parser";
 import randomId from "random-id";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger.json";
-// const swaggerDocument = require('./swagger.json');
+// import swaggerDocument from "./swagger.json";
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const swaggerDocument = require('./swagger.json');
+const customCss = fs1.readFileSync(process.cwd() + "/swagger.css", "utf8");
+
 dotenv.config();
 
 connectDB();
@@ -27,7 +31,12 @@ const app = express(),
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-
+app.use(bodyParser.json());
+app.use(
+  "/swagger",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, { customCss })
+);
 app.use(express.json());
 
 app.use("/api/products", productRoutes);
@@ -50,29 +59,21 @@ if (process.env.NODE_ENV === "production") {
   );
 } else {
   app.get("/", (req, res) => {
-    res.send("API is running....");
+    res.send(`<h1>API Running on port ${port}</h1>`);
   });
 }
 
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 
-app.listen(
-  PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
-  )
-);
-
-const customCss = fs.readFileSync(process.cwd() + "/swagger.css", "utf8");
-app.use(bodyParser.json());
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument, { customCss })
-);
+// app.listen(
+//   PORT,
+//   console.log(
+//     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+//   )
+// );
 
 app.get("/api/todos", (req, res) => {
   console.log("api/todos called!!!!!");

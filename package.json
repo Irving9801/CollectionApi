@@ -22,7 +22,7 @@
   "scripts": {
   
     "start": "node app.js",
-    "server": "nodemon server/server",
+    "server": "nodemon server/server localhost 5000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
