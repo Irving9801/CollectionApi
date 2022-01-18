@@ -9,12 +9,20 @@ import productRoutes from "../routes/productRoutes.js";
 import userRoutes from "../routes/userRoutes.js";
 import orderRoutes from "../routes/orderRoutes.js";
 import uploadRoutes from "../routes/uploadRoutes.js";
-
+import fs1 from "fs";
+import bodyParser1 from "body-parser";
+import randomId from "random-id";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json";
+// const swaggerDocument = require('./swagger.json');
 dotenv.config();
 
 connectDB();
 
-const app = express();
+const app = express(),
+  bodyParser = bodyParser1,
+  fs = fs1,
+  port = 5000;
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -57,3 +65,50 @@ app.listen(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
   )
 );
+
+const customCss = fs.readFileSync(process.cwd() + "/swagger.css", "utf8");
+app.use(bodyParser.json());
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, { customCss })
+);
+
+app.get("/api/todos", (req, res) => {
+  console.log("api/todos called!!!!!");
+  res.json(tasks);
+});
+
+app.post("/api/todo", (req, res) => {
+  const task = req.body.task;
+  task.id = randomId(10);
+  tasks.push(task);
+  res.json(tasks);
+});
+
+app.delete("/api/todo/:id", (req, res) => {
+  console.log("Id to delete:::::", req.params.id);
+  tasks = tasks.filter((task) => task.id != req.params.id);
+  res.json(tasks);
+});
+
+app.put("/api/todos/:id", (req, res) => {
+  console.log("Id to update:::::", req.params.id);
+  const taskToUpdate = req.body.task;
+  tasks = tasks.map((task) => {
+    if (task.id == req.params.id) {
+      task = taskToUpdate;
+      task.id = parseInt(req.params.id);
+    }
+    return task;
+  });
+  res.json(tasks);
+});
+
+app.get("/", (req, res) => {
+  res.send(`<h1>API Running on port ${port}</h1>`);
+});
+
+app.listen(port, () => {
+  console.log(`Server listening on the port::::::${port}`);
+});
