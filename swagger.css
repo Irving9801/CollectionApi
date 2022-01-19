@@ -15,7 +15,7 @@ body {
 }
 
 .swagger-ui .btn.execute {
-    background-color: green;
+    background-color: rgb(32, 173, 32);
 }
 
 .swagger-ui button {
