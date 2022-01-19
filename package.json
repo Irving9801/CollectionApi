@@ -2,7 +2,9 @@
   "name": "collectionapi",
   "version": "0.1.0",
   "description": "Apis de Atlantixz",
+  "main": "server",
   "private": true,
+  "type": "module",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
@@ -16,9 +18,7 @@
     "random-id": "^1.0.4",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
-  },
-  "main": "server.js",
-  "type": "module",
+  },  
   "scripts": {
     "start": "node server/server",
     "server": "nodemon server/server",
