@@ -52,9 +52,10 @@ app.get('/', (req,res) => {
   res.send(`<h1>API Running on port ${port}</h1>`);
 });
 
-app.listen(port, () => {
+app.listen(5000, () => {
     console.log(`Server listening on the port::::::${port}`);
 });
+
 // const __dirname = path.resolve();
 // app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
