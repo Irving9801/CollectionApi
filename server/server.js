@@ -18,7 +18,7 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const swaggerDocument = require('./swagger.json');
 const customCss = fs1.readFileSync(process.cwd() + "/swagger.css", "utf8");
-
+console.log("entrando aqui")
 dotenv.config();
 
 connectDB();
@@ -28,9 +28,10 @@ const app = express(),
   fs = fs1,
   port = 5000;
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+// if (process.env.NODE_ENV === "development") {
+//   app.use(morgan("dev"));
+// }
+console.log("aqii2")
 app.use(bodyParser.json());
 app.use(
   "/swagger",
@@ -47,21 +48,30 @@ app.use("/api/upload", uploadRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+app.get('/', (req,res) => {
+  res.send(`<h1>API Running on port ${port}</h1>`);
+});
 
-const __dirname = path.resolve();
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.listen(port, () => {
+    console.log(`Server listening on the port::::::${port}`);
+});
+// const __dirname = path.resolve();
+// app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/build")));
+// if (process.env.NODE_ENV === "production") {
+//   // app.use(express.static(path.join(__dirname, "/frontend/build")));
 
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
-  );
-} else {
-  app.get("/", (req, res) => {
-    res.send(`<h1>API Running on port ${port}</h1>`);
-  });
-}
+//   app.get("*", (req, res) =>
+//     res.sendFile(path.resolve(__dirname, "server"))
+//   );
+//   console.log("bebe")
+// }
+// //  else {
+//   console.log(process.env.NODE_ENV)
+//   app.get("/", (req, res) => {
+//     res.send(`<h1>API Running on port ${port}</h1>`);
+//   });
+// // }
 
-app.use(notFound);
-app.use(errorHandler);
+// app.use(notFound);
+// app.use(errorHandler);
