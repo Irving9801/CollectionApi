@@ -18,7 +18,6 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const swaggerDocument = require('./swagger.json');
 const customCss = fs1.readFileSync(process.cwd() + "/swagger.css", "utf8");
-console.log("entrando aqui")
 dotenv.config();
 
 connectDB();
@@ -28,10 +27,10 @@ const app = express(),
   fs = fs1,
   port = 5000;
 
-// if (process.env.NODE_ENV === "development") {
-//   app.use(morgan("dev"));
-// }
-console.log("aqii2")
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
 app.use(bodyParser.json());
 app.use(
   "/swagger",
@@ -51,9 +50,9 @@ app.get("/api/config/paypal", (req, res) =>
 app.get('/', (req,res) => {
   res.send(`<h1>API Running on port ${port}</h1>`);
 });
-
-app.listen(5000, () => {
-    console.log(`Server listening on the port::::::${port}`);
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => {
+    console.log(`Server running in ${port} mode on port ${PORT}`.yellow.bold);
 });
 
 // const __dirname = path.resolve();
