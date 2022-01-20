@@ -5,8 +5,8 @@
         "version": "1.0.0",
         "title": "Tasks API"
     },
-    "schemes": ["http"],
-    "host": "localhost:5000",
+    "schemes": ["http", "https"],
+    "host": "atlantixws.herokuapp.com",
     "basePath": "/api",
     "paths" : {
         "/products" : {
