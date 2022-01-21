@@ -50,6 +50,10 @@ app.get("/api/config/paypal", (req, res) =>
 app.get('/', (req,res) => {
   res.send(`<h1>API Running on port ${port}</h1>`);
 });
+app.get('/api/cors', (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.send({ "msg": "This has CORS enabled 🎈" })
+  })
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
     console.log(`Server running in ${port} mode on port ${PORT}`.yellow.bold);
